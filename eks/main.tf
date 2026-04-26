@@ -2,7 +2,7 @@
 # Provider
 ############################
 provider "aws" {
-  region = "us-west-2"
+  region = "us-east-1"
 }
 
 ############################
@@ -24,7 +24,7 @@ resource "aws_subnet" "itkannadigaru_subnet" {
   vpc_id = aws_vpc.itkannadigaru_vpc.id
   cidr_block = cidrsubnet(aws_vpc.itkannadigaru_vpc.cidr_block, 8, count.index)
 
-  availability_zone = element(["us-west-2a", "us-west-2b"], count.index)
+  availability_zone = element(["us-east-1a", "us-east-1b"], count.index)
   map_public_ip_on_launch = true
 
   tags = {
@@ -205,11 +205,11 @@ resource "aws_eks_node_group" "itkannadigaru" {
 
   scaling_config {
     desired_size = 2
-    max_size     = 100
+    max_size     = 5
     min_size     = 2
   }
 
-  instance_types = ["t3.micro"]
+  instance_types = ["t3.medium"]
 
   remote_access {
     ec2_ssh_key               = var.ssh_key_name
